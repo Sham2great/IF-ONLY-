@@ -37,7 +37,7 @@ The three worlds should differ meaningfully: one tender/hopeful, one bittersweet
     });
     const result = await upstream.json();
     if (!upstream.ok) {
-      console.error("OpenAI request failed:", upstream.status, result?.error?.type || "API error");
+      console.error("OpenAI request failed:", JSON.stringify({ status: upstream.status, type: result?.error?.type, code: result?.error?.code, param: result?.error?.param, message: result?.error?.message }));
       if (upstream.status === 401 || upstream.status === 403) return reply(502, { error: "The story engine couldn't authenticate. Check that the API key is valid and has permission to make model requests." });
       if (upstream.status === 429) return reply(429, { error: "The story engine is busy or its API quota is unavailable. Check your API billing/limits, then try again." });
       return reply(502, { error: "The story engine hit a problem. Please try again in a moment." });
